@@ -3,6 +3,14 @@
 # Log output for debugging
 LOGFILE="$HOME/.config/polybar/polybar.log"
 
+MAX_LINES=250
+
+# Trim the log file if it exceeds the maximum number of lines
+if [ $(wc -l < "$LOGFILE") -gt $MAX_LINES ]; then
+  # Keep only the last MAX_LINES lines
+  tail -n $MAX_LINES "$LOGFILE" > "$LOGFILE.tmp" && mv "$LOGFILE.tmp" "$LOGFILE"
+fi
+
 # Output the current date and time and log the Polybar launch
 echo "$(date +"%Y-%m-%d %H:%M:%S") Launching Polybar..." | tee -a $LOGFILE
 
