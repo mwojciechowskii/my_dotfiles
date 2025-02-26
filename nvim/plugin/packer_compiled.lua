@@ -84,12 +84,6 @@ _G.packer_plugins = {
     path = "/home/michal/.local/share/nvim/site/pack/packer/start/code_runner.nvim",
     url = "https://github.com/CRAG666/code_runner.nvim"
   },
-  gruvbox = {
-    config = { "\27LJ\2\n7\0\0\3\0\3\0\0056\0\0\0009\0\1\0'\2\2\0B\0\2\1K\0\1\0\24colorscheme gruvbox\bcmd\bvim\0" },
-    loaded = true,
-    path = "/home/michal/.local/share/nvim/site/pack/packer/start/gruvbox",
-    url = "https://github.com/ellisonleao/gruvbox.nvim"
-  },
   harpoon = {
     loaded = true,
     path = "/home/michal/.local/share/nvim/site/pack/packer/start/harpoon",
@@ -99,6 +93,17 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/michal/.local/share/nvim/site/pack/packer/start/lsp-zero.nvim",
     url = "https://github.com/VonHeikemen/lsp-zero.nvim"
+  },
+  ["lualine.nvim"] = {
+    loaded = true,
+    path = "/home/michal/.local/share/nvim/site/pack/packer/start/lualine.nvim",
+    url = "https://github.com/nvim-lualine/lualine.nvim"
+  },
+  ["material.nvim"] = {
+    config = { "\27LJ\2\ná\3\0\0\5\0\20\0\0256\0\0\0009\0\1\0'\1\3\0=\1\2\0006\0\4\0'\2\5\0B\0\2\0029\0\6\0005\2\b\0005\3\a\0=\3\t\0025\3\v\0005\4\n\0=\4\f\0035\4\r\0=\4\14\3=\3\15\0025\3\16\0=\3\17\2B\0\2\0016\0\0\0009\0\18\0'\2\19\0B\0\2\1K\0\1\0\25colorscheme material\bcmd\fplugins\1\4\0\0\14nvim-tree\14telescope\rnvim-cmp\vstyles\rkeywords\1\0\1\vitalic\2\rcomments\1\0\2\rcomments\0\rkeywords\0\1\0\1\vitalic\2\rcontrast\1\0\3\fplugins\0\rcontrast\0\vstyles\0\1\0\4\21floating_windows\1\16cursor_line\1\rterminal\1\rsidebars\1\nsetup\rmaterial\frequire\15deep ocean\19material_style\6g\bvim\0" },
+    loaded = true,
+    path = "/home/michal/.local/share/nvim/site/pack/packer/start/material.nvim",
+    url = "https://github.com/marko-cerovac/material.nvim"
   },
   ["nvim-cmp"] = {
     loaded = true,
@@ -130,6 +135,12 @@ _G.packer_plugins = {
     path = "/home/michal/.local/share/nvim/site/pack/packer/start/telescope.nvim",
     url = "https://github.com/nvim-telescope/telescope.nvim"
   },
+  ["transparent.nvim"] = {
+    config = { "\27LJ\2\nå\3\0\0\4\0\b\0\r6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\4\0005\3\3\0=\3\5\0024\3\0\0=\3\6\0024\3\0\0=\3\a\2B\0\2\1K\0\1\0\19exclude_groups\17extra_groups\vgroups\1\0\3\vgroups\0\17extra_groups\0\19exclude_groups\0\1\26\0\0\vNormal\rNormalNC\fComment\rConstant\fSpecial\15Identifier\14Statement\fPreProc\tType\15Underlined\tTodo\vString\rFunction\16Conditional\vRepeat\rOperator\14Structure\vLineNr\fNonText\15SignColumn\15CursorLine\17CursorLineNr\15StatusLine\17StatusLineNC\16EndOfBuffer\nsetup\16transparent\frequire\0" },
+    loaded = true,
+    path = "/home/michal/.local/share/nvim/site/pack/packer/start/transparent.nvim",
+    url = "https://github.com/xiyaowong/transparent.nvim"
+  },
   undotree = {
     loaded = true,
     path = "/home/michal/.local/share/nvim/site/pack/packer/start/undotree",
@@ -138,10 +149,14 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
--- Config for: gruvbox
-time([[Config for gruvbox]], true)
-try_loadstring("\27LJ\2\n7\0\0\3\0\3\0\0056\0\0\0009\0\1\0'\2\2\0B\0\2\1K\0\1\0\24colorscheme gruvbox\bcmd\bvim\0", "config", "gruvbox")
-time([[Config for gruvbox]], false)
+-- Config for: transparent.nvim
+time([[Config for transparent.nvim]], true)
+try_loadstring("\27LJ\2\nå\3\0\0\4\0\b\0\r6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\4\0005\3\3\0=\3\5\0024\3\0\0=\3\6\0024\3\0\0=\3\a\2B\0\2\1K\0\1\0\19exclude_groups\17extra_groups\vgroups\1\0\3\vgroups\0\17extra_groups\0\19exclude_groups\0\1\26\0\0\vNormal\rNormalNC\fComment\rConstant\fSpecial\15Identifier\14Statement\fPreProc\tType\15Underlined\tTodo\vString\rFunction\16Conditional\vRepeat\rOperator\14Structure\vLineNr\fNonText\15SignColumn\15CursorLine\17CursorLineNr\15StatusLine\17StatusLineNC\16EndOfBuffer\nsetup\16transparent\frequire\0", "config", "transparent.nvim")
+time([[Config for transparent.nvim]], false)
+-- Config for: material.nvim
+time([[Config for material.nvim]], true)
+try_loadstring("\27LJ\2\ná\3\0\0\5\0\20\0\0256\0\0\0009\0\1\0'\1\3\0=\1\2\0006\0\4\0'\2\5\0B\0\2\0029\0\6\0005\2\b\0005\3\a\0=\3\t\0025\3\v\0005\4\n\0=\4\f\0035\4\r\0=\4\14\3=\3\15\0025\3\16\0=\3\17\2B\0\2\0016\0\0\0009\0\18\0'\2\19\0B\0\2\1K\0\1\0\25colorscheme material\bcmd\fplugins\1\4\0\0\14nvim-tree\14telescope\rnvim-cmp\vstyles\rkeywords\1\0\1\vitalic\2\rcomments\1\0\2\rcomments\0\rkeywords\0\1\0\1\vitalic\2\rcontrast\1\0\3\fplugins\0\rcontrast\0\vstyles\0\1\0\4\21floating_windows\1\16cursor_line\1\rterminal\1\rsidebars\1\nsetup\rmaterial\frequire\15deep ocean\19material_style\6g\bvim\0", "config", "material.nvim")
+time([[Config for material.nvim]], false)
 
 _G._packer.inside_compile = false
 if _G._packer.needs_bufread == true then

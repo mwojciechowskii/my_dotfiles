@@ -36,5 +36,18 @@ require('code_runner').setup({
         require("code_runner.commands").run_from_fn(vim.list_extend(c_base, c_exec))
       end)
     end,
+
+    html = {
+      "cd $dir &&",
+      "xdg-open $fileName"     
+    },
+    css = {
+      "cd $dir &&",
+      "xdg-open $fileName"      
+    },
+    javascript = {
+      "cd $dir &&",
+      "node $fileName"          
+    }
   },
 })

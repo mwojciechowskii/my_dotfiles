@@ -9,3 +9,22 @@ o.scrolloff = 8
 o.hlsearch = false
 o.incsearch = true
 o.relativenumber = true
+o.tabstop = 4
+o.shiftwidth = 4
+o.softtabstop = 4
+o.modeline = false
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "*",
+    callback = function()
+        vim.opt_local.tabstop = 4
+        vim.opt_local.shiftwidth = 4
+        vim.opt_local.softtabstop = 4
+    end,
+})
+-- Enable transparency
+vim.g.transparent_enabled = true
+
+-- Optional: keybinding to toggle transparency
+vim.keymap.set('n', '<leader>tt', '<cmd>TransparentToggle<CR>', { noremap = true, silent = true })
+vim.opt.showmode = false
+
