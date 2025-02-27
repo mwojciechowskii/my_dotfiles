@@ -40,6 +40,11 @@ exec --no-startup-id xrandr --output HDMI-1 --mode 1920x1080 --rate 165
 
 #autolock
 
+#exec xautolock -time 1 -locker 'i3lock ~/.config/scripts/lock_screen.sh' &
+#bindsym $mod+p exec 'i3lock ~/scripts/lock_screen.sh' &
+
+
+
 bindsym $mod+d exec rofi -show run
 
 ## Enable floating
