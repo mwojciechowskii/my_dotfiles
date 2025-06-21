@@ -21,10 +21,10 @@ vim.api.nvim_create_autocmd("FileType", {
         vim.opt_local.softtabstop = 4
     end,
 })
--- Enable transparency
 vim.g.transparent_enabled = true
 
--- Optional: keybinding to toggle transparency
 vim.keymap.set('n', '<leader>tt', '<cmd>TransparentToggle<CR>', { noremap = true, silent = true })
 vim.opt.showmode = false
-
+require('nvim-autopairs').setup({
+  disable_filetype = { "TelescopePrompt", "vim" },
+})

@@ -2,10 +2,9 @@
 vim.cmd [[packadd packer.nvim]]
 
 return require('packer').startup(function(use)
-	-- Packer can manage itself
 	use 'wbthomason/packer.nvim'
 
-	use "nvim-lua/plenary.nvim" -- don't forget to add this one if you don't have it yet!
+	use "nvim-lua/plenary.nvim"
 	use {
 		"ThePrimeagen/harpoon",
 		branch = "harpoon2",
@@ -14,26 +13,8 @@ return require('packer').startup(function(use)
 
 	use {
 		'nvim-telescope/telescope.nvim', tag = '0.1.8',
-		-- or                            , branch = '0.1.x',
 		requires = { {'nvim-lua/plenary.nvim'} }
 	}
-
----	use ({
----		"ellisonleao/gruvbox.nvim",
----		as = 'gruvbox',
----		config = function()
----			vim.cmd('colorscheme gruvbox')
----		end
----	})
----	use {
----		'sainnhe/everforest',
----		config = function()
----			vim.g.everforest_background = 'hard'
----			vim.g.everforest_better_performance = 1
----			vim.cmd('colorscheme everforest')
----		end
----	}
-
 	use {
 		'nvim-lualine/lualine.nvim',
 		requires = {'marko-cerovac/material.nvim'}
@@ -41,7 +22,7 @@ return require('packer').startup(function(use)
 	use {
 		'marko-cerovac/material.nvim',
 		config = function()
-			vim.g.material_style = "deep ocean" -- or "palenight", "oceanic", "darker"
+			vim.g.material_style = "deep ocean"
 			require('material').setup({
 				contrast = {
 					terminal = false,
@@ -62,34 +43,67 @@ return require('packer').startup(function(use)
 			vim.cmd('colorscheme material')
 		end
 	}
-  use {
-    "xiyaowong/transparent.nvim",
-    config = function()
-      -- Set up transparent.nvim to clear transparency for many default groups
-      require("transparent").setup({
-        groups = { -- Table: default groups to apply transparency
-          "Normal", "NormalNC", "Comment", "Constant", "Special", "Identifier",
-          "Statement", "PreProc", "Type", "Underlined", "Todo", "String", "Function",
-          "Conditional", "Repeat", "Operator", "Structure", "LineNr", "NonText",
-          "SignColumn", "CursorLine", "CursorLineNr", "StatusLine", "StatusLineNC",
-          "EndOfBuffer",
-        },
-        extra_groups = {},   -- Additional groups that should be cleared
-        exclude_groups = {}, -- Groups you don't want to clear
-      })
-    end
-  }
+	use {
+		"xiyaowong/transparent.nvim",
+		config = function()
+			require("transparent").setup({
+				groups = {
+					"Normal", "NormalNC", "Comment", "Constant", "Special", "Identifier",
+					"Statement", "PreProc", "Type", "Underlined", "Todo", "String", "Function",
+					"Conditional", "Repeat", "Operator", "Structure", "LineNr", "NonText",
+					"SignColumn", "CursorLine", "CursorLineNr", "StatusLine", "StatusLineNC",
+					"EndOfBuffer",
+				},
+				extra_groups = {},
+				exclude_groups = {},
+			})
+		end
+	}
 
-		use({
+	use({
 		'nvim-treesitter/nvim-treesitter',
-		run = ':TSUpdate'  
+		run = ':TSUpdate'
+	})
+
+	use({
+		"iamcco/markdown-preview.nvim",
+		run = function() vim.fn["mkdp#util#install"]() end,
+		setup = function() vim.g.mkdp_filetypes = { "markdown" } end,
+		ft = { "markdown" }
 	})
 	use('mbbill/undotree')
-	use({'VonHeikemen/lsp-zero.nvim', branch = 'v4.x'})
-	use({'neovim/nvim-lspconfig'})
-	use({'hrsh7th/nvim-cmp'})
-	use({'hrsh7th/cmp-nvim-lsp'})
+	use('mfussenegger/nvim-dap')
+	use('theHamsta/nvim-dap-virtual-text')
+	use('rcarriga/nvim-dap-ui')
+	use {
+		'jay-babu/mason-nvim-dap.nvim',
+		requires = {'williamboman/mason.nvim', 'mfussenegger/nvim-dap'},
+	}
+	use {
+		'dlyongemallo/valgrind.nvim',
+		requires = 'mfussenegger/nvim-dap',
+	}
+	use('nvim-neotest/nvim-nio')
+	use {
+		'VonHeikemen/lsp-zero.nvim',
+		requires = {
+			{'neovim/nvim-lspconfig'},
+			{'williamboman/mason.nvim'},
+			{'williamboman/mason-lspconfig.nvim'},
+			{'hrsh7th/nvim-cmp'},
+			{'hrsh7th/cmp-nvim-lsp'},
+		}
+	}
+	use({ "mfussenegger/nvim-jdtls" })
 	use({'CRAG666/code_runner.nvim'})
+	use({
+		'windwp/nvim-autopairs',
+		config = function()
+			require("nvim-autopairs").setup({
+				disable_filetype = { "TelescopePrompt", "vim" },
+			})
+		end
+	})
 end)
 
 

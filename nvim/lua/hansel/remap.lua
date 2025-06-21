@@ -1,5 +1,15 @@
 vim.g.mapleader = " "
+local map = vim.api.nvim_set_keymap
+local opts = { noremap = true, silent = true }
 vim.keymap.set("n", "<leader>ew", vim.cmd.Ex)
-vim.api.nvim_set_keymap('n', '<leader>q', ':bd!<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('t', '<leader>q', '<C-\\><C-n>:bd!<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<C-s>', '<C-u>', { noremap = true, silent = true }) 
+map('n', '<leader>q', ':bd!<CR>', opts)
+map('t', '<leader>q', '<C-\\><C-n>:bd!<CR>', opts)
+map('n', '<C-s>', '<C-u>', opts)
+
+map('n', '<leader>ww', ':bnext<CR>', opts)
+map('n', '<leader>ee', ':bprevious<CR>', opts)
+map("n", "<leader>bb", ":badd %<CR>", opts)
+map('n', '<leader>bd', ':bdelete<CR>', opts)
+
+map('n', '<leader>bl', ':ls<CR>', opts)
+map('n', '<leader>cd', 'ggVG"+y', opts)

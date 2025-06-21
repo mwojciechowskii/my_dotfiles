@@ -1,0 +1,59 @@
+
+[colors.bright]
+black = "0x464B5D"
+blue = "0x9CC4FF"
+cyan = "0xA3F7FF"
+green = "0xDDFFA7"
+magenta = "0xE1ACFF"
+red = "0xFF8B92"
+white = "0xFFFFFF"
+yellow = "0xFFE585"
+
+[colors.normal]
+black = "0x1A1F2E"
+blue = "0x82AAFF"
+cyan = "0x89DDFF"
+green = "0xC3E88D"
+magenta = "0xC792EA"
+red = "0xF07178"
+white = "0xEEFFFF"
+yellow = "0xFFCB6B"
+
+[colors.primary]
+background = "0x0F111A"
+foreground = "0xA6ACCD"
+
+[colors.selection]
+background = "0x717CB4"
+text = "0xEEFFFF"
+
+[cursor]
+blink_interval = 250
+thickness = 0.15
+unfocused_hollow = true
+vi_mode_style = "Block"
+
+[cursor.style]
+blinking = "On"
+shape = "Block"
+
+[font]
+size = 16.0
+
+[font.normal]
+family = "Fira Code "
+
+[terminal.shell]
+program = "/bin/bash"
+
+[window]
+opacity = 0.85
+
+[window.padding]
+x = 10
+y = 10
+
+[general]
+live_config_reload = true
+
+[terminal]

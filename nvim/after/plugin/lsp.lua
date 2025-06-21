@@ -1,127 +1,139 @@
---
--- LSP configuration
----
 local lsp_zero = require('lsp-zero')
+local mason   = require('mason')
+local mlc     = require('mason-lspconfig')
 
-local lsp_attach = function(client, bufnr)
-	local opts = {buffer = bufnr}
+-- 1. ensure mason and mason-lspconfig are set up and servers installed
+mason.setup()
+mlc.setup({
+  ensure_installed = {
+    'lua_ls', 'bashls', 'pyright', 'clangd',
+    'html', 'cssls', 'ts_ls', 'emmet_language_server', 'jsonls'
+  }
+})
 
-	vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
-	vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
-	vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
-	vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
-	vim.keymap.set('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
-	vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
-	vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
-	vim.keymap.set('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
-	vim.keymap.set({'n', 'x'}, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
-	vim.keymap.set('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
+-- 2. on_attach + keymaps
+local on_attach = function(client, bufnr)
+  local opts = { buffer = bufnr, silent = true, noremap = true }
+  vim.keymap.set('n', 'K',  vim.lsp.buf.hover,            opts)
+  vim.keymap.set('n', 'gd', vim.lsp.buf.definition,       opts)
+  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration,      opts)
+  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation,   opts)
+  vim.keymap.set('n', 'go', vim.lsp.buf.type_definition,  opts)
+  vim.keymap.set('n', 'gr', vim.lsp.buf.references,       opts)
+  vim.keymap.set('n', 'gs', vim.lsp.buf.signature_help,    opts)
+  vim.keymap.set('n', '<F2>', vim.lsp.buf.rename,         opts)
+  vim.keymap.set({'n','x'}, '<F3>', function()
+    vim.lsp.buf.format({ async = true })
+  end, opts)
+  vim.keymap.set('n', '<F4>', vim.lsp.buf.code_action,    opts)
 end
 
+-- 3. extend lsp-zero defaults
 lsp_zero.extend_lspconfig({
-	sign_text = true,
-	lsp_attach = lsp_attach,
-	capabilities = require('cmp_nvim_lsp').default_capabilities(),
+  sign_text    = true,
+  lsp_attach   = on_attach,
+  capabilities = require('cmp_nvim_lsp').default_capabilities(),
 })
 
--- These are just examples. Replace them with the language
--- servers you have installed in your system
-require('lspconfig').bashls.setup({})
-require('lspconfig').pyright.setup({})
-require('lspconfig').clangd.setup({})
+-- 4. shared cfg for individual servers
+local cfg = {
+  on_attach    = on_attach,
+  capabilities = require('cmp_nvim_lsp').default_capabilities(),
+}
 
-require('lspconfig').html.setup({
-    capabilities = capabilities,
-    filetypes = { 'html' }, -- Attach to .html files
-    settings = {
-        html = {
-            validate = {
-                -- Enable validation for inline scripts and styles
-                scripts = true,
-                styles = true,
-            },
-            -- Optional: Configure formatting options
-            format = {
-                enable = true,
-            },
+-- 5. Lua LSP
+require('lspconfig').lua_ls.setup(vim.tbl_deep_extend("force", cfg, {
+  settings = {
+    Lua = {
+      runtime = { version = 'LuaJIT', path = vim.split(package.path, ';') },
+      diagnostics = { globals = { 'vim' } },
+      workspace   = {
+        library = {
+          vim.fn.stdpath('config') .. '/lua',
+          vim.fn.stdpath('data')   .. '/site/pack/packer/start/*/lua',
         },
+        checkThirdParty = false,
+      },
+      telemetry = { enable = false },
     },
-})
+  },
+}))
 
--- CSS Language Server with HTML filetype inclusion for inline styles
-require('lspconfig').cssls.setup({
-    capabilities = capabilities,
-    filetypes = { 'css', 'scss', 'less', 'html' }, -- Attach to CSS and HTML files
-    settings = {
-        css = {
-            validate = true,
-        },
-        scss = {
-            validate = true,
-        },
-        less = {
-            validate = true,
-        },
+-- 6. other servers
+require('lspconfig').bashls.setup(cfg)
+require('lspconfig').pyright.setup(cfg)
+require('lspconfig').clangd.setup(cfg)
+require('lspconfig').html.setup(vim.tbl_deep_extend("force", cfg, {
+  filetypes = { 'html', 'markdown' },
+  settings = {
+    html = {
+      validate = { scripts = true, styles = true },
+      format   = { enable = true },
     },
-})
-
--- TypeScript/JavaScript Language Server with HTML filetype inclusion for inline scripts
-require('lspconfig').ts_ls.setup({
-    capabilities = capabilities,
-    filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'html' }, -- Attach to JS, TS, and HTML files
-    settings = {
-        javascript = {
-            validate = true,
-        },
-        typescript = {
-            validate = true,
-        },
-    },
-})
-
--- Add this to your lsp.lua or init.lua
---local capabilities = vim.lsp.protocol.make_client_capabilities()
---capabilities.textDocument.completion.completionItem.snippetSupport = true
-
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-
-require('lspconfig').emmet_language_server.setup({
-  capabilities = capabilities,
-  filetypes = { "html", "css", "javascriptreact", "typescriptreact", "scss", "sass", "less", "eruby", "pug" },
+  },
+}))
+require('lspconfig').cssls.setup(vim.tbl_deep_extend("force", cfg, {
+  filetypes = { 'css','scss','less','html' },
+}))
+require('lspconfig').ts_ls.setup(vim.tbl_deep_extend("force", cfg, {
+  filetypes = {
+    'javascript','javascriptreact','typescript','typescriptreact','html'
+  },
+}))
+require('lspconfig').emmet_language_server.setup(vim.tbl_deep_extend("force", cfg, {
+  filetypes = {
+    "markdown","html","css","javascriptreact","typescriptreact",
+    "scss","sass","less","eruby","pug"
+  },
   init_options = {
-    showExpandedAbbreviation = "always",
+    showExpandedAbbreviation    = "always",
     showAbbreviationSuggestions = true,
   },
-})
+}))
+require('lspconfig').jsonls.setup(vim.tbl_deep_extend("force", cfg, {
+  filetypes = { 'json', 'jsonc', 'mcmeta', 'fabric.mod.json' },
+  settings = {
+    json = {
+      schemas = {
+        {
+          fileMatch = { "fabric.mod.json" },
+          url = "https://json.schemastore.org/fabric.mod.json"
+        }
+      }
+    }
+  }
+}))
 
--- Add these keybindings
---vim.keymap.set({'i', 'n'}, '<C-y>,', function()
---    vim.lsp.buf.execute_command({
---        command = 'emmet.expand_abbreviation',
---        arguments = { vim.fn.expand('%:p'), vim.fn.line('.'), vim.fn.col('.') }
---    })
---end, { silent = true })
----
--- Autocompletion setup
----
+-- 7. emmet keybind
+vim.keymap.set({'i', 'n'}, '<C-y>,', function()
+  vim.lsp.buf.execute_command({
+    command   = 'emmet.expand_abbreviation',
+    arguments = {
+      vim.fn.expand('%:p'),
+      vim.fn.line('.'),
+      vim.fn.col('.'),
+    }
+  })
+end, { silent = true })
+
+-- 8. preserve original cmp setup verbatim
 local cmp = require('cmp')
-
 cmp.setup({
-	sources = {
-		{name = 'nvim_lsp'},
-	},
-	snippet = {
-		expand = function(args)
-			-- You need Neovim v0.10 to use vim.snippet
-			vim.snippet.expand(args.body)
-		end,
-	},
-	mapping = cmp.mapping.preset.insert({
-		['<Tab>'] = cmp.mapping.confirm({ select = true }), -- Tab akceptuje sugestię
-		['<C-Space>'] = cmp.mapping.complete(),             -- Ctrl + Spacja otwiera sugestie
-		['<Esc>'] = cmp.mapping.close(),                    -- Esc zamyka menu sugestii
-		['<CR>'] = cmp.mapping.confirm({ select = false }),  -- Enter akceptuje tylko zaznaczoną sugestię
-
-	}),
+  sources = {
+    { name = 'nvim_lsp' },
+  },
+  snippet = {
+    expand = function(args)
+      vim.snippet.expand(args.body)
+    end,
+  },
+  mapping = cmp.mapping.preset.insert({
+    ['<Tab>']     = cmp.mapping.confirm({ select = true }),  -- Tab akceptuje sugestię
+    ['<C-Space>'] = cmp.mapping.complete(),                  -- Ctrl + Spacja otwiera sugestie
+    ['<Esc>']     = cmp.mapping.close(),                     -- Esc zamyka menu sugestii
+    ['<CR>']      = cmp.mapping.confirm({ select = false }), -- Enter akceptuje tylko zaznaczoną sugestię
+  }),
 })
+
+-- 9. finalize
+lsp_zero.setup()

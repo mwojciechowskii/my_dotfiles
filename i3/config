@@ -15,7 +15,7 @@ set $mod Mod1
 # is used in the bar {} block below.
 font pango:Fira Mono Regular 10
 
-for_window [class="^.*"] border pixel 2
+for_window [class="^.*"] border pixel 0
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 #font pango:DejaVu Sans Mono 8
@@ -31,9 +31,8 @@ exec --no-startup-id picom --config ~/.config/picom/picom.conf
 #workspacesconfig  ###1
 ## [Basic Autostart]
 exec --no-startup-id alacritty
-exec --no-startup-id brave-browser
-exec --no-startup-id firefox 
-#exec --no-startup-id brave-browser
+#exec --no-startup-id zen-browser 
+exec --no-startup-id flatpak run app.zen_browser.zen
 exec --no-startup-id kdeconnect-app
 exec_always --no-startup-id $HOME/.config/polybar/launch_polybar.sh
 exec --no-startup-id xrandr --output HDMI-1 --mode 1920x1080 --rate 165
@@ -43,12 +42,13 @@ exec --no-startup-id xrandr --output HDMI-1 --mode 1920x1080 --rate 165
 #exec xautolock -time 1 -locker 'i3lock ~/.config/scripts/lock_screen.sh' &
 #bindsym $mod+p exec 'i3lock ~/scripts/lock_screen.sh' &
 
-
-
-bindsym $mod+d exec rofi -show run
-
+bindsym $mod+d exec ~/.config/rofi/launchers/type-1/launcher.sh
 ## Enable floating
 for_window[class="steam"] floating enable
+for_window[class="com.vixalien.sticky"] floating enable
+for_window[class="PrismLauncher"] floating enable
+#for_window[class="org-prismlauncher-EntryPoint"] floating enable
+for_window[class="org-prismlauncher-EntryPoint"] move to workspace 9
 #setting mouse theme
 
 # move focused workspace between monitors
@@ -59,9 +59,10 @@ bindsym $mod+Ctrl+2 move workspace to output HDMI-1
 bindsym $mod+Ctrl+1 move workspace to output eDP-1
 
 #for_window [class="^.*"] border pixel 0
-gaps inner 6
-gaps outer -2
+#gaps inner 6
+#gaps outer -2
 
+bindsym $mod+Shift+s exec flatpak run com.vixalien.sticky
 ## Clipboard Screenshots
 bindsym Ctrl+Print exec --no-startup-id maim -o | xclip -selection clipboard -t image/png
 bindsym Ctrl+$mod+Print exec --no-startup-id maim -o --window $(xdotool getactivewindow) | xclip -selection clipboard -t image/png
@@ -73,20 +74,24 @@ bindsym $mod+Print exec --no-startup-id maim -o --window $(xdotool getactivewind
 bindsym Shift+Print exec --no-startup-id maim -o --select "/home/$USER/Pictures/$(date '+%Y-%m-%d_%H-%M-%S').png"
 
 ## [---Workspaces---]
-set $ws1 "1: terminal"
-set $ws2 "2: myweb"
-set $ws3 "3: friefox"
-#set $ws4 "4: teams"
-#set $ws2 "2: web"
-#set $ws2 "2: web"
-set $ws9 "9: kde"
+#set $ws1 "1: terminal"
+#set $ws2 "2: zen"
+#set $ws10 "10: kde"
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
 
 ## [Assign apps to workspaces]
 assign     [class="alacritty"]         $ws1
-assign      [class="Brave-browser"]   $ws2
-assign      [class="firefox"]   $ws3
-#assign      [class=""]   $ws4
-assign      [class="kdeconnect.app"]	$ws9
+assign [class="zen"] $ws2
+assign      [class="kdeconnect.app"]	$ws10
 
 ##touchpad setup
 exec xinput set-prop "ELAN0412:01 04F3:3162 Touchpad" "libinput Tapping Enabled" 1
@@ -125,7 +130,7 @@ bindsym $mod+Return exec alacritty
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+Shift+d exec --no-startup-id dmenu_run
+#bindsym $mod+Shift+d exec --no-startup-id dmenu_run
 # A more modern dmenu replacement is rofi:
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"
 # There also is i3-dmenu-desktop which only displays applications shipping a
@@ -181,19 +186,6 @@ bindsym $mod+a focus parent
 
 # focus the child container
 #bindsym $mod+d focus child
-
-# Define names for default workspaces for which we configure key bindings later on.
-# We use variables to avoid repeating the names in multiple places.
-set $ws1 "1"
-set $ws2 "2"
-set $ws3 "3"
-set $ws4 "4"
-set $ws5 "5"
-set $ws6 "6"
-set $ws7 "7"
-set $ws8 "8"
-set $ws9 "9"
-set $ws10 "10"
 
 # switch to workspace
 bindsym $mod+1 workspace number $ws1
