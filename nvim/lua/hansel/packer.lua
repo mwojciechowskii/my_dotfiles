@@ -19,30 +19,7 @@ return require('packer').startup(function(use)
 		'nvim-lualine/lualine.nvim',
 		requires = {'marko-cerovac/material.nvim'}
 	}
-	use {
-		'marko-cerovac/material.nvim',
-		config = function()
-			vim.g.material_style = "deep ocean"
-			require('material').setup({
-				contrast = {
-					terminal = false,
-					sidebars = false,
-					floating_windows = false,
-					cursor_line = false,
-				},
-				styles = {
-					comments = { italic = true },
-					keywords = { italic = true },
-				},
-				plugins = {
-					"nvim-tree",
-					"telescope",
-					"nvim-cmp",
-				},
-			})
-			vim.cmd('colorscheme material')
-		end
-	}
+	use { "ellisonleao/gruvbox.nvim" }
 	use {
 		"xiyaowong/transparent.nvim",
 		config = function()
@@ -84,6 +61,7 @@ return require('packer').startup(function(use)
 		requires = 'mfussenegger/nvim-dap',
 	}
 	use('nvim-neotest/nvim-nio')
+	use ('lukas-reineke/indent-blankline.nvim')
 	use {
 		'VonHeikemen/lsp-zero.nvim',
 		requires = {
@@ -94,6 +72,7 @@ return require('packer').startup(function(use)
 			{'hrsh7th/cmp-nvim-lsp'},
 		}
 	}
+	use({ "tpope/vim-fugitive" })
 	use({ "mfussenegger/nvim-jdtls" })
 	use({'CRAG666/code_runner.nvim'})
 	use({

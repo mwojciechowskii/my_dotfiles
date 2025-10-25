@@ -10,9 +10,11 @@ symbol = " "
 symbol = " "
 
 [c]
+disabled = false
 symbol = " "
 
 [cpp]
+disabled = false
 symbol = " "
 
 [cmake]
@@ -36,6 +38,8 @@ truncation_length = 0
 truncate_to_repo = false
 
 [docker_context]
+disabled = false
+detect_files = ["compose.yml", "docker-compose.yml", "docker-compose.yaml", "Dockerfile", "compose.yaml", "compose.yml"]
 symbol = " "
 
 [elixir]

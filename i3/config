@@ -21,7 +21,7 @@ for_window [class="^.*"] border pixel 0
 #font pango:DejaVu Sans Mono 8
 
 ###---my own extensions---###
-# Adjust this depending on where Polybar is placed (top or bottom)
+# top or bottom
 for_window [class="Polybar"] border pixel 1
 
 #setting the wallpaper
@@ -30,12 +30,13 @@ exec_always --no-startup-id feh --bg-scale /home/michal/Documents/IMG_20240223_1
 exec --no-startup-id picom --config ~/.config/picom/picom.conf
 #workspacesconfig  ###1
 ## [Basic Autostart]
-exec --no-startup-id alacritty
-#exec --no-startup-id zen-browser 
+exec --no-startup-id com.mitchellh.ghostty
 exec --no-startup-id flatpak run app.zen_browser.zen
-exec --no-startup-id kdeconnect-app
+#exec --no-startup-id kdeconnect-app
+exec --no-startup-id dbus-run-session -- kdeconnect-app &
 exec_always --no-startup-id $HOME/.config/polybar/launch_polybar.sh
-exec --no-startup-id xrandr --output HDMI-1 --mode 1920x1080 --rate 165
+exec --no-startup-id xrandr --output HDMI-1 --primary --mode 1920x1080 --rate 165
+exec_always --no-startup-id $HOME/.config/scripts/displays.sh
 
 #autolock
 
@@ -45,27 +46,40 @@ exec --no-startup-id xrandr --output HDMI-1 --mode 1920x1080 --rate 165
 bindsym $mod+d exec ~/.config/rofi/launchers/type-1/launcher.sh
 ## Enable floating
 for_window[class="steam"] floating enable
+for_window[class="Signal"] floating enable
 for_window[class="com.vixalien.sticky"] floating enable
 for_window[class="PrismLauncher"] floating enable
+
+for_window[class="Gnome-calculator"] floating enable
 #for_window[class="org-prismlauncher-EntryPoint"] floating enable
 for_window[class="org-prismlauncher-EntryPoint"] move to workspace 9
+for_window [class="^Wine$" title=".*(Desktop|virtual desktop).*"] floating enable, fullscreen enable, border pixel 0
 #setting mouse theme
+
+bindsym XF86MonBrightnessUp exec --no-startup-id sudo brightnessctl set +5%
+bindsym XF86MonBrightnessDown exec --no-startup-id sudo brightnessctl set 5%-
 
 # move focused workspace between monitors
 # Move workspace to HDMI-1 (external monitor)
-bindsym $mod+Ctrl+2 move workspace to output HDMI-1
+#bindsym $mod+Ctrl+2 move workspace to output HDMI-1
 
 # Move workspace to eDP-1 (internal monitor)
-bindsym $mod+Ctrl+1 move workspace to output eDP-1
+#bindsym $mod+Ctrl+1 move workspace to output eDP-1-1
+
+bindsym $mod+Ctrl+1 move workspace to output left
+
+bindsym $mod+Ctrl+2 move workspace to output right
+
 
 #for_window [class="^.*"] border pixel 0
 #gaps inner 6
 #gaps outer -2
 
 bindsym $mod+Shift+s exec flatpak run com.vixalien.sticky
+bindsym $mod+Shift+d exec signal-desktop
 ## Clipboard Screenshots
-bindsym Ctrl+Print exec --no-startup-id maim -o | xclip -selection clipboard -t image/png
-bindsym Ctrl+$mod+Print exec --no-startup-id maim -o --window $(xdotool getactivewindow) | xclip -selection clipboard -t image/png
+bindsym Ctrl+$mod+Print exec --no-startup-id maim -o | xclip -selection clipboard -t image/png
+bindsym Ctrl+Print exec --no-startup-id maim -o --window $(xdotool getactivewindow) | xclip -selection clipboard -t image/png
 bindsym Ctrl+Shift+Print exec --no-startup-id maim -o --select | xclip -selection clipboard -t image/png
 
 # Screenshots
@@ -74,9 +88,6 @@ bindsym $mod+Print exec --no-startup-id maim -o --window $(xdotool getactivewind
 bindsym Shift+Print exec --no-startup-id maim -o --select "/home/$USER/Pictures/$(date '+%Y-%m-%d_%H-%M-%S').png"
 
 ## [---Workspaces---]
-#set $ws1 "1: terminal"
-#set $ws2 "2: zen"
-#set $ws10 "10: kde"
 set $ws1 "1"
 set $ws2 "2"
 set $ws3 "3"

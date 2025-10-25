@@ -22,9 +22,12 @@ vim.api.nvim_create_autocmd("FileType", {
     end,
 })
 vim.g.transparent_enabled = true
+vim.o.background = "dark" -- or "light" for light mode
+vim.cmd([[colorscheme gruvbox]])
 
 vim.keymap.set('n', '<leader>tt', '<cmd>TransparentToggle<CR>', { noremap = true, silent = true })
 vim.opt.showmode = false
 require('nvim-autopairs').setup({
   disable_filetype = { "TelescopePrompt", "vim" },
 })
+
